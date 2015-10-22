@@ -273,6 +273,19 @@ namespace SLua
             }
 
             CustomExport.OnAddCustomClass(fun);
+
+			//detect interface ICustomExportPost,and call OnAddCustomClass
+			assembly = System.Reflection.Assembly.Load("Assembly-CSharp-Editor");
+			types = assembly.GetExportedTypes();
+			foreach (Type t in types)
+			{
+				if(typeof(ICustomExportPost).IsAssignableFrom(t)){
+					System.Reflection.MethodInfo method =  t.GetMethod("OnAddCustomClass",System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+					if(method != null){
+						method.Invoke(null,new object[]{fun});
+					}
+				}
+			}
 			
 			GenerateBind(exports, "BindCustom", 3, path);
             if(autoRefresh)
