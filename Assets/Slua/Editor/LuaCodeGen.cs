@@ -1742,12 +1742,15 @@ namespace SLua
 				file.Write("\t");
 			
 			
-			if (args.Length == 0)
-				file.WriteLine(fmt);
+			if (args.Length == 0){
+				file.Write(fmt);
+				file.Write("\r\n");  //TODO add by zilch,try to make win&mac generate same files.
+			}
 			else
 			{
 				string line = string.Format(fmt, args);
-				file.WriteLine(line);
+				file.Write(line);
+				file.Write("\r\n");
 			}
 			
 			if (fmt.EndsWith("{")) indent++;
