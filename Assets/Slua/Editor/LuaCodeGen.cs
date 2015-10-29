@@ -273,6 +273,19 @@ namespace SLua
             }
 
             CustomExport.OnAddCustomClass(fun);
+
+			//detect interface ICustomExportPost,and call OnAddCustomClass
+			assembly = System.Reflection.Assembly.Load("Assembly-CSharp-Editor");
+			types = assembly.GetExportedTypes();
+			foreach (Type t in types)
+			{
+				if(typeof(ICustomExportPost).IsAssignableFrom(t)){
+					System.Reflection.MethodInfo method =  t.GetMethod("OnAddCustomClass",System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+					if(method != null){
+						method.Invoke(null,new object[]{fun});
+					}
+				}
+			}
 			
 			GenerateBind(exports, "BindCustom", 3, path);
             if(autoRefresh)
@@ -1472,7 +1485,7 @@ namespace SLua
 			if (method.Name != "GetType" && method.Name != "GetHashCode" && method.Name != "Equals" &&
 			    method.Name != "ToString" && method.Name != "Clone" &&
 			    method.Name != "GetEnumerator" && method.Name != "CopyTo" &&
-			    method.Name != "op_Implicit" &&
+			    method.Name != "op_Implicit" && method.Name != "op_Explicit" &&
 			    !method.Name.StartsWith("get_", StringComparison.Ordinal) &&
 			    !method.Name.StartsWith("set_", StringComparison.Ordinal) &&
 			    !method.Name.StartsWith("add_", StringComparison.Ordinal) &&
@@ -1729,12 +1742,15 @@ namespace SLua
 				file.Write("\t");
 			
 			
-			if (args.Length == 0)
-				file.WriteLine(fmt);
+			if (args.Length == 0){
+				file.Write(fmt);
+				file.Write("\r\n");  //TODO add by zilch,try to make win&mac generate same files.
+			}
 			else
 			{
 				string line = string.Format(fmt, args);
-				file.WriteLine(line);
+				file.Write(line);
+				file.Write("\r\n");
 			}
 			
 			if (fmt.EndsWith("{")) indent++;
