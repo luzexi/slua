@@ -197,7 +197,7 @@ namespace SLua
 			}
 		}
 
-		public void init(Action<int> tick,Action complete,LuaSvrFlag flag=LuaSvrFlag.LSF_BASIC)
+		public void init(Action<int> tick,Action complete,LuaSvrFlag flag=LuaSvrFlag.LSF_3RDDLL)
         {
 			LuaState luaState = new LuaState();
 
