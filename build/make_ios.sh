@@ -7,7 +7,7 @@ STRIP="xcrun -sdk iphoneos strip"
 
 IXCODE=`xcode-select -print-path`
 ISDK=$IXCODE/Platforms/iPhoneOS.platform/Developer
-ISDKVER=iPhoneOS9.1.sdk
+ISDKVER=iPhoneOS9.2.sdk
 ISDKP=$IXCODE/usr/bin/
 ISDKD=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/
 
