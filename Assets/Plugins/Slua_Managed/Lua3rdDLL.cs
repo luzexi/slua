@@ -13,7 +13,6 @@ namespace SLua{
 		static Dictionary<string, LuaCSFunction> DLLRegFuncs = new Dictionary<string, LuaCSFunction>();
 		
 		static Lua3rdDLL(){
-			UnityEngine.Debug.Log("ok in ");
 			LuasocketLib.Reg(DLLRegFuncs);
 			CjsonLib.Reg(DLLRegFuncs);
 			PbcLib.Reg(DLLRegFuncs);
